@@ -11,7 +11,7 @@ Disesuaikan untuk wilayah Indonesia :
 gnome-shell versi 3.6
 
 **Install :**
-- copy folder waktu-sholat@arpodungge.github.com ke ~/.local/share/gnome-shell/extensions
+- Copy folder waktu-sholat@arpodungge.github.com ke ~/.local/share/gnome-shell/extensions
 - Tekan alt-F2 lalu tekan r dan enter
 - Buka Extensions atau Gnone Tweak lalu aktifkan extension waktu-sholat
 
@@ -21,7 +21,6 @@ Dalam versi ini tidak disertakan ui untuk konfigurasi
 untuk melakukan konfigurasi silahkan edit file extension.js
 
 // Konfigurasi
-
 // Default latlon Jakarta : -6.1333, 106.75
 
 this._myLocation = [-6.1333, 106.75, 10];  
