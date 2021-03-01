@@ -12,7 +12,7 @@ gnome-shell versi 3.6
 
 
 **Install :**  
-untuk lebih mudah nya dapat menginstall dari https://extensions.gnome.org/extension/4036/waktu-sholat,  
+untuk lebih mudah nya dapat melakukan instalasi dari https://extensions.gnome.org/extension/4036/waktu-sholat,  
 untuk manual install sbb:  
 - Copy folder waktu-sholat@arpodungge.github.com ke ~/.local/share/gnome-shell/extensions
 - Tekan alt-F2 lalu tekan r dan enter
