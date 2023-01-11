@@ -1,23 +1,23 @@
 const St = imports.gi.St;
 const Main = imports.ui.main;
 const Soup = imports.gi.Soup;
+const GObject = imports.gi.GObject;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Clutter = imports.gi.Clutter;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const ExtensionUtils = imports.misc.extensionUtils;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Me = ExtensionUtils.getCurrentExtension();
 
 const PrayTimes = Me.imports.PrayTimes;
 const HijriCalendarKuwaiti = Me.imports.HijriCalendarKuwaiti;
 
-const Sholat = new Lang.Class({
-    Name: 'Sholat',
-    Extends: PanelMenu.Button,
+const Sholat = GObject.registerClass(
+class Sholat extends PanelMenu.Button {
 
-    _init: function () {
-        this.parent(0.0, "Sholat", false);
+    _init () {
+        super._init(0.5, "Sholat");
         this.indicatorText = new St.Label({
             text: _("Sholat"),
             y_align: Clutter.ActorAlign.CENTER
@@ -58,9 +58,9 @@ const Sholat = new Lang.Class({
 
         this._buildMenu();
         this._refresh();
-    },    
+    }    
 
-    _buildMenu: function() {
+    _buildMenu () {
 
         let dateMenuItem = new PopupMenu.PopupMenuItem(_(""), {
             reactive: true, hover: false, activate: false
@@ -99,16 +99,16 @@ const Sholat = new Lang.Class({
                 label: prayLabel
             };
         }
-    },
+    }
 
-    _refresh: function () {
+    _refresh () {
         this._reloadPrayerTimes();
         this._removeTimeout();
         this._timeout = Mainloop.timeout_add_seconds(60, Lang.bind(this, this._refresh));
         return true;
-    },
+    }
 
-    _reloadPrayerTimes: function() {
+    _reloadPrayerTimes () {
         let currentDate = new Date();
         let currentSeconds = this._calculateSecondsFromDate(currentDate);
 
@@ -169,21 +169,21 @@ const Sholat = new Lang.Class({
             this.indicatorText.set_text(this._timeNames[nearestPrayerId] + '  -' + this._formatRemainingTimeFromMinutes(minDiffMinutes));
         };
 
-    },
+    }
 
-    _calculateSecondsFromDate: function(date) {
+    _calculateSecondsFromDate (date) {
         return this._calculateSecondsFromHour(date.getHours()) + (date.getMinutes() * 60) + date.getSeconds();
-    },
+    }
   
-    _calculateSecondsFromHour: function(hour) {
+    _calculateSecondsFromHour (hour) {
         return (hour * 60 * 60);
-    },
+    }
   
-    _isPrayerTime: function(prayerId) {
+    _isPrayerTime (prayerId) {
         return prayerId === 'fajr' || prayerId === 'dhuhr' || prayerId === 'asr' || prayerId === 'maghrib' || prayerId === 'isha';
-    },
+    }
   
-    _formatRemainingTimeFromMinutes: function(diffMinutes) {
+    _formatRemainingTimeFromMinutes (diffMinutes) {
         // let diffMinutes = diffSeconds / (60);
   
         let hours = ~~(diffMinutes / 60);
@@ -193,28 +193,28 @@ const Sholat = new Lang.Class({
         let minutesStr = (minutes < 10 ? "0" : "") + minutes;
   
         return hoursStr + ":" + minutesStr;
-    },
+    }
 
-    _formatHijriDate: function(hijriDate) {
+    _formatHijriDate (hijriDate) {
         return this._dayNames[hijriDate[4]] + ", " + hijriDate[5] + " " + this._monthNames[hijriDate[6]] + " " + hijriDate[7] + " H";
-    },
+    }
 
-    _removeTimeout: function () {
+    _removeTimeout () {
         if (this._timeout) {
-          Mainloop.source_remove(this._timeout);
-          this._timeout = null;
+            Mainloop.source_remove(this._timeout);
+            this._timeout = null;
         }
-      },
+    }
     
-      stop: function () {
+    stop () {
         if (this._timeout)
-          Mainloop.source_remove(this._timeout);
+            Mainloop.source_remove(this._timeout);
         this._timeout = undefined;
-    
-        this.menu.removeAll();
-      }
 
-});
+        this.menu.removeAll();
+    }
+        
+})
 
 
 let menuSholat;
