@@ -8,7 +8,9 @@ Disesuaikan untuk wilayah Indonesia :
 
 **Requirement**
 
-gnome-shell versi 3.6
+gnome-shell versi 40, 41, 42, 43
+
+untuk gnome-shell versi 3.6 pakai yang v1.0.0
 
 
 **Install :**  
