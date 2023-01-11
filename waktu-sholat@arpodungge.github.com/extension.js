@@ -1,8 +1,6 @@
 const St = imports.gi.St;
 const Main = imports.ui.main;
-const Soup = imports.gi.Soup;
 const GObject = imports.gi.GObject;
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Clutter = imports.gi.Clutter;
 const PanelMenu = imports.ui.panelMenu;
@@ -104,7 +102,7 @@ class Sholat extends PanelMenu.Button {
     _refresh () {
         this._reloadPrayerTimes();
         this._removeTimeout();
-        this._timeout = Mainloop.timeout_add_seconds(60, Lang.bind(this, this._refresh));
+        this._timeout = Mainloop.timeout_add_seconds(60, this._refresh.bind(this));
         return true;
     }
 
@@ -112,7 +110,7 @@ class Sholat extends PanelMenu.Button {
         let currentDate = new Date();
         let currentSeconds = this._calculateSecondsFromDate(currentDate);
 
-        let pt = PrayTimes.prayTimes;
+        //let pt = PrayTimes.prayTimes;
         pt.setMethod(this._prayerMethod);
         pt.tune( {fajr: this._subuhTune, dhuhr: this._zuhurTune, asr: this._asarTune, maghrib: this._magribTune, isha: this._isyaTune} );
 
@@ -216,11 +214,11 @@ class Sholat extends PanelMenu.Button {
         
 })
 
-
+let pt;
 let menuSholat;
 
 function init() {
-    
+    pt = new PrayTimes.PrayTimes();
 }
 
 function enable() {
@@ -229,6 +227,9 @@ function enable() {
 }
 
 function disable() {
-    menuSholat.stop();
-    menuSholat.destroy();
+    if (menuSholat) {
+        menuSholat.stop();
+        menuSholat.destroy();
+        menuSholat = null;
+    }
 }
